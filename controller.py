@@ -1,4 +1,4 @@
-from Devices.device import Device
+from device import Device
 class Controller:
     def operate(self, device: Device):
         device.start()
