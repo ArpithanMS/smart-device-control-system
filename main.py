@@ -1,5 +1,5 @@
-from motor import Motor
-from light import Light
+from Devices.motor import Motor
+from Devices.light import Light
 from controller import Controller
 
 if __name__ == "__main__":
