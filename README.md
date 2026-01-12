@@ -2,14 +2,15 @@
 
 ## Overview
 
-This project implements a simple, extensible **Smart Device Control System** in Python. The goal is not just to make the code work, but to demonstrate a clear understanding of **Object-Oriented Programming (OOP)** principles such as abstraction, encapsulation, inheritance, and polymorphism.
+This project implements a simple, extensible **Smart Device Control System** in Python. The objective is to demonstrate a clear understanding of **Object-Oriented Programming (OOP)** principles such as abstraction, encapsulation, inheritance, and polymorphism.
 
-The system currently supports two devices:
+The system currently supports the following devices:
 
 * **Motor**
 * **Light**
+* **Fan**
 
-The design intentionally allows new device types to be added in the future without modifying existing controller logic.
+The design allows new device types to be added easily without modifying existing controller logic.
 
 ---
 
@@ -24,17 +25,18 @@ The design intentionally allows new device types to be added in the future witho
 ---
 
 ## Project Structure
-
-```
-smart_device_system/
+SMART_DEVICE_SYSTEM/
 │
-├── device.py       # Abstract base class for all devices
-├── motor.py        # Motor implementation
-├── light.py        # Light implementation
-├── controller.py   # Generic device controller
-├── main.py         # Driver / test code
-└── README.md       # Design explanation
-```
+├── Devices/
+│ ├── motor.py # Motor implementation
+│ ├── light.py # Light implementation
+│ └── fan.py # Fan implementation
+│
+├── device.py # Abstract base class for all devices
+├── controller.py # Generic device controller
+├── main.py # Driver / test code
+└── README.md # Design explanation
+
 
 Each file has a single, well-defined responsibility.
 
@@ -44,25 +46,24 @@ Each file has a single, well-defined responsibility.
 
 ### 1. Abstraction
 
-A base `Device` class defines the common interface (`start`, `stop`) and shared behavior for all devices. This ensures that all concrete devices behave consistently from the controller's perspective.
-
-The base class is implemented as an **abstract base class (ABC)** to enforce implementation of required methods in subclasses.
+A base `Device` class defines the common interface (`start`, `stop`) for all devices.  
+The base class is implemented as an **abstract base class (ABC)** to enforce consistent behavior across all device types.
 
 ---
 
 ### 2. Encapsulation
 
-* Each device maintains an internal `_is_on` state
-* The state is **protected** and cannot be modified directly by external code
-* A read-only `is_on` property allows external code to check device status safely
+* Each device maintains a **private internal state**
+* The ON/OFF state is stored inside the base class and cannot be modified directly by external code
+* A read-only `is_on` property allows safe state inspection
 
-This prevents invalid or accidental state changes.
+State changes are performed only through controlled internal methods, preventing invalid operations.
 
 ---
 
 ### 3. Inheritance
 
-Concrete devices such as `Motor` and `Light` inherit from the `Device` base class.
+Concrete devices such as `Motor`, `Light`, and `Fan` inherit from the `Device` base class.
 
 This avoids code duplication and ensures all devices follow the same contract.
 
@@ -70,20 +71,19 @@ This avoids code duplication and ensures all devices follow the same contract.
 
 ### 4. Polymorphism
 
-The controller interacts with devices using the same method calls (`start`, `stop`), while each device provides its own implementation.
+The controller interacts with all devices using the same method calls (`start`, `stop`), while each device provides its own behavior.
 
-This allows different behavior without conditional logic or type checking.
+No conditional logic or type checks are required.
 
 ---
 
 ### 5. Loose Coupling
 
-The `Controller` class depends only on the abstract `Device` interface, not on concrete device implementations.
+The `Controller` class depends only on the abstract `Device` interface, not on concrete implementations.
 
-As a result:
-
-* New device types can be added without changing controller code
-* The system follows the Open–Closed Principle
+This follows the **Open–Closed Principle**:
+* Open for extension
+* Closed for modification
 
 ---
 
@@ -95,50 +95,28 @@ The controller performs a generic operation:
 2. Turn the device OFF
 
 The controller does not:
-
-* Check device type
+* Check device types
 * Contain device-specific logic
 * Import concrete device classes
-
-This makes the controller reusable and future-proof.
 
 ---
 
 ## Extensibility
 
-To add a new device (e.g., `Fan`):
+To add a new device:
 
 1. Create a new class inheriting from `Device`
-2. Implement `start()` and `stop()` methods
+2. Implement `start()` and `stop()`
 3. Use the existing controller without modification
 
-This validates the scalability of the design.
+No changes are required elsewhere in the system.
 
 ---
 
-## Running the Project
-
-From the project root directory:
-
-```bash
-python main.py
-```
-
 Expected output:
-
-```
 Motor has started
 Motor has stopped
 Light switched on
 Light switched off
-```
-
----
-
-## Key Takeaways
-
-* Emphasis is placed on **design clarity** over over-engineering
-* The system demonstrates core OOP principles clearly
-* The structure reflects real-world, maintainable Python code
-
-This project is intentionally simple, but architected to scale.
+Fan has started
+Fan has stopped
