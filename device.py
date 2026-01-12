@@ -2,7 +2,18 @@ from abc import ABC, abstractmethod
 
 class Device(ABC):
     def __init__(self):
-        self._is_on = False  # protected internal state
+        self.__is_on = False  # truly private
+
+    @property
+    def is_on(self):
+        """Read-only access to device state"""
+        return self.__is_on
+
+    def _turn_on(self):
+        self.__is_on = True
+
+    def _turn_off(self):
+        self.__is_on = False
 
     @abstractmethod
     def start(self):
@@ -11,8 +22,3 @@ class Device(ABC):
     @abstractmethod
     def stop(self):
         pass
-
-    @property
-    def is_on(self):
-        """Read-only access to device state"""
-        return self._is_on

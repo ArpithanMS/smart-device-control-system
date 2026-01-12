@@ -1,13 +1,12 @@
 from device import Device
 
-
 class Fan(Device):
     def start(self):
-        if not self._is_on:
-            self._is_on = True
+        if not self.is_on:
+            self._turn_on()
             print("Fan has started")
 
     def stop(self):
-        if self._is_on:
-            self._is_on = False
+        if self.is_on:
+            self._turn_off()
             print("Fan has stopped")
