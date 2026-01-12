@@ -25,7 +25,7 @@ The design allows new device types to be added easily without modifying existing
 ---
 
 ## Project Structure
-SMART_DEVICE_SYSTEM/
+<!-- SMART_DEVICE_SYSTEM/
 │
 ├── Devices/
 │ ├── motor.py # Motor implementation
@@ -35,7 +35,7 @@ SMART_DEVICE_SYSTEM/
 ├── device.py # Abstract base class for all devices
 ├── controller.py # Generic device controller
 ├── main.py # Driver / test code
-└── README.md # Design explanation
+└── README.md # Design explanation -->
 
 
 Each file has a single, well-defined responsibility.
